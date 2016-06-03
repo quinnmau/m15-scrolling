@@ -10,27 +10,28 @@ var init = [
 ];
 
 $(function() {
+  var population = false;
   var introblock = d3.select('#intro')
                       .style('width', window.innerWidth)
                       .style('height', window.innerHeight);
   
-  // var fixmeTop = $('#vis').offset().top;       // get initial position of the element
+  var fixmeTop = $('#vis').offset().top;       // get initial position of the element
 
-  // $(window).scroll(function() {                  // assign scroll event listener
+  $(window).scroll(function() {                  // assign scroll event listener
 
-  //     var currentScroll = $(window).scrollTop(); // get current position
+      var currentScroll = $(window).scrollTop(); // get current position
 
-  //     if (currentScroll >= fixmeTop) {           // apply position: fixed if you
-  //         $('#vis').css({                      // scroll to that element or below it
-  //             position: 'fixed'
-  //         });
-  //     } else {                                   // apply position: static
-  //         $('#vis').css({                      // if you scroll above it
-  //             position: 'static'
-  //         });
-  //     }
+      if (population) {           // apply position: fixed if you
+          $('#vis').css({                      // scroll to that element or below it
+              position: 'fixed'
+          });
+      } else {                                   // apply position: static
+          $('#vis').css({                      // if you scroll above it
+              position: 'static'
+          });
+      }
 
-  // });
+  });
   
   var graph = GroupedBarChart()
                 .x(function(d) {return d.year})
@@ -69,6 +70,8 @@ $(function() {
     var getData = function(index) {
       d3.csv('data/population.csv', function(data) {
         switch(index) {
+          case 10:
+            population = true;
           case 11:
           console.log('feet');
             var yVal = function(d) {
@@ -98,9 +101,21 @@ $(function() {
             };
             update(index, yVal, data);
             break;
-          case 3:
+          case 14:
+          var yVal = function(d) {
+              return [
+                {uk: +d.uk},
+                {germany: +d.germany},
+                {japan: +d.japan},
+                {us: +d.us},
+                {india: +d.india},
+                {china: +d.china}
+              ];
+            };
+            update(index, yVal, data);
             break;
           default:
+          population = false;
             var yVal = function(d) {
               return [
                 {us: +d.us}

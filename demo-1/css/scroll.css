@@ -11,7 +11,7 @@
 }
 
 #vis {
-  position: fixed;
+  position: static;
   display: inline-block;
   top: 60px;
   z-index: 1;
