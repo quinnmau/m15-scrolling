@@ -16,6 +16,10 @@ $(function() {
                 .x(function(d) {return d.year})
                 .y(function(d) {return [{uk: +d.uk}]})
                 .showLegend(true);
+                
+  var graph2 = LineChart()
+                .indy('year')
+                .y('population');
   
   
   // Instantiate your chart with given settings
@@ -23,7 +27,7 @@ $(function() {
   
   
 
-  var update = function(index, val, data) {
+  var updateBar = function(index, val, data) {
       switch(index) {
         case 12:
           showVis();
@@ -64,63 +68,95 @@ $(function() {
         .style('opacity', 0);
     }
     
+    //determine which data to grab
     var getData = function(index) {
+        if (index <= 11) {
+          rate(index);
+        } else {
+          pop(index);
+        }
+    };
+    
+    var rate = function(index) {
+      d3.csv('data/co2.csv', function(data) {
+        switch(index) {
+          case 7:
+            showVis();
+            data.filter(function(d) {return objFilter1(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 8:
+            showVis();
+            data.filter(function(d) {return objFilter2(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 9:
+            showVis();
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          default:
+            hideVis();
+            $('#vis').empty();
+            break;
+        }
+      });
+    };
+    
+    function objFilter1(obj) {
+      for (var i in obj) {
+        if (i !== 'us' && i !== 'year') 
+          delete obj[i];
+      }
+      return obj;
+    }
+    
+    function objFilter2(obj) {
+      for (var i in obj) {
+        console.log(i);
+        if (i !== 'us' && i !== 'year' && i !== 'china') 
+          delete obj[i];
+      }
+    }
+    
+    function objFilter3(obj) {
+      for (var i in obj) {
+        console.log(i);
+        if (i !== 'us' && i !== 'year' && i !== 'china' && i !== 'india' && i !== 'uk' && i !== 'japan') 
+          delete obj[i];
+      }
+    }
+    
+    var pop = function(index) {
       d3.csv('data/population.csv', function(data) {
         switch(index) {
-          case 0:
-            console.log('hair');
-            break;
-          case 1:
-            console.log('hair');
-            break;
-          case 2:
-            console.log('hair');
-            break;
-          case 10:
-            console.log('melon');
-            break;
           case 12:
-          console.log('feet');
             showVis();
             var yVal = function(d) {
-              return [
-                {uk: +d.uk}
-              ];
+              return [{uk: +d.uk}];
             };
-            update(index, yVal, data);
+            updateBar(index, yVal, data);
             break;
           case 13:
-            console.log('bones');
             var yVal = function(d) {
               return [
-                {uk: +d.uk},
-                {germany: +d.germany}
-              ];
+                {uk: +d.uk},{germany: +d.germany}];
             };
-            update(index, yVal, data);
+            updateBar(index, yVal, data);
             break;
           case 14:
             var yVal = function(d) {
               return [
-                {uk: +d.uk},
-                {germany: +d.germany},
-                {japan: +d.japan}
-              ];
+                {uk: +d.uk},{germany: +d.germany},{japan: +d.japan}];
             };
-            update(index, yVal, data);
+            updateBar(index, yVal, data);
             break;
           case 15:
           var yVal = function(d) {
               return [
-                {uk: +d.uk},
-                {germany: +d.germany},
-                {japan: +d.japan},
-                {us: +d.us},
-                {india: +d.india},
-                {china: +d.china}
-              ];
+                {uk: +d.uk},{germany: +d.germany},{japan: +d.japan},{us: +d.us},{india: +d.india},{china: +d.china}];
             };
-            update(index, yVal, data);
+            updateBar(index, yVal, data);
             break;
           default:
             hideVis();
@@ -129,11 +165,11 @@ $(function() {
                 {uk: +d.uk}
               ];
             };
-            update(index, yVal, data);
+            updateBar(index, yVal, data);
             break;
         }
-      });  
-    };
+      });
+    }
   // Define a new scroller, and use the `.container` method to specify the desired container
   var scroll = scroller()
       .container(d3.select('#graphic'));
