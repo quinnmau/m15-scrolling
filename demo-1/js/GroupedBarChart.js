@@ -4,7 +4,7 @@ function GroupedBarChart() {
     var margin = {
         top: 50,
         left: 100,
-        bottom: 50,
+        bottom: 100,
         right: 100
     };
     var width = 1000;
@@ -142,12 +142,12 @@ function GroupedBarChart() {
                 .call(yAxis);
                 
             g.select('.x-title')
-                .attr('transform', 'translate(' + (((width - margin.right - margin.left) / 2) - (titlePadding / 2)) + ', ' + (height - margin.bottom - titlePadding) + ')')
+                .attr('transform', 'translate(' + (((width - margin.right - margin.left) / 2) - (titlePadding / 2)) + ', ' + (height - margin.bottom) + ')')
                 .attr('class', 'title')
                 .text(xAxisLabel);
                 
             g.select('.y-title')
-                .attr('transform', 'translate(' + (-1 * titlePadding) + ', ' + ((height - margin.bottom) / 2) + ') rotate(-90)')
+                .attr('transform', 'translate(' + (-1 * titlePadding - 30) + ', ' + ((height - margin.bottom) / 2) + ') rotate(-90)')
                 .attr('class', 'title')
                 .text(yAxisLabel);
 

@@ -37,10 +37,12 @@ $(function() {
           var yVal = val;
           break;
         case 12:
+          graph.yLabel('Birth Rate (live births per 1000 people)');
           showVis();
           var yVal = val;
           break;
         case 13:
+          graph.yLabel('Birth Rate (live births per 1000 people)');
           showVis();
           var yVal = val;
           break;
@@ -54,10 +56,12 @@ $(function() {
           break;
         case 16:
           showVis();
+          graph.yLabel('Population');
           var yVal = val;
           break;
         case 17:
           showVis();
+          graph.yLabel('Population');
           var yVal = val;
           break;
         default:
