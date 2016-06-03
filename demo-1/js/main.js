@@ -19,7 +19,9 @@ $(function() {
                 
   var graph2 = LineChart()
                 .indy('year')
-                .y('population');
+                .y('population')
+                .yLabel('CO2 Emissions (kt)')
+                .xLabel('Year');
   
   
   // Instantiate your chart with given settings
@@ -29,6 +31,11 @@ $(function() {
 
   var updateBar = function(index, val, data) {
       switch(index) {
+        case 11:
+          graph.yLabel('Birth Rate (live births per 1000 people)');
+          showVis();
+          var yVal = val;
+          break;
         case 12:
           showVis();
           var yVal = val;
@@ -38,10 +45,18 @@ $(function() {
           var yVal = val;
           break;
         case 14:
+          hideVis();
+          break;
+        case 15:
+          showVis();
+          graph.yLabel('Population');
+          var yVal = val;
+          break;
+        case 16:
           showVis();
           var yVal = val;
           break;
-        case 15:
+        case 17:
           showVis();
           var yVal = val;
           break;
@@ -50,7 +65,7 @@ $(function() {
           var yVal = val;
           break;
       }
-      graph.y(val);
+      graph.y(val).xLabel('Year');
       chartWrapper.datum([data]).call(graph);
     };
     
@@ -70,14 +85,16 @@ $(function() {
     
     //determine which data to grab
     var getData = function(index) {
-        if (index <= 11) {
+        if (index <= 9) {
+          carbon(index);
+        } else if (index <= 14) {
           rate(index);
-        } else {
+        } else if (index <= 18) {
           pop(index);
         }
     };
     
-    var rate = function(index) {
+    var carbon = function(index) {
       d3.csv('data/co2.csv', function(data) {
         switch(index) {
           case 7:
@@ -130,31 +147,26 @@ $(function() {
     var pop = function(index) {
       d3.csv('data/population.csv', function(data) {
         switch(index) {
-          case 12:
+          case 15:
             showVis();
             var yVal = function(d) {
               return [{uk: +d.uk}];
             };
             updateBar(index, yVal, data);
             break;
-          case 13:
+          case 16:
+            showVis();
             var yVal = function(d) {
               return [
-                {uk: +d.uk},{germany: +d.germany}];
+                {uk: +d.uk},{japan: +d.japan}];
             };
             updateBar(index, yVal, data);
             break;
-          case 14:
+          case 17:
+            showVis();
             var yVal = function(d) {
               return [
-                {uk: +d.uk},{germany: +d.germany},{japan: +d.japan}];
-            };
-            updateBar(index, yVal, data);
-            break;
-          case 15:
-          var yVal = function(d) {
-              return [
-                {uk: +d.uk},{germany: +d.germany},{japan: +d.japan},{us: +d.us},{india: +d.india},{china: +d.china}];
+                {uk: +d.uk},{japan: +d.japan},{us: +d.us},{india: +d.india},{china: +d.china}];
             };
             updateBar(index, yVal, data);
             break;
@@ -166,6 +178,40 @@ $(function() {
               ];
             };
             updateBar(index, yVal, data);
+            break;
+        }
+      });
+    }
+    
+    var rate = function(index) {
+      d3.csv('data/world.csv', function(data) {
+        switch(index) {
+          case 11:
+            showVis();
+            var yVal = function(d) {
+              return [{india: +d.india}];
+            };
+            updateBar(index, yVal, data);
+            break;
+          case 12:
+            showVis();
+            var yVal = function(d) {
+              return [
+                {india: +d.india},{china: +d.china}];
+            };
+            updateBar(index, yVal, data);
+            break;
+          case 13:
+            showVis();
+            var yVal = function(d) {
+              return [
+                {india: +d.india},{china: +d.china},{japan: +d.japan},{us: +d.us},{uk: +d.uk}];
+            };
+            updateBar(index, yVal, data);
+            break;
+          default:
+            hideVis();
+            $('#vis').empty();
             break;
         }
       });

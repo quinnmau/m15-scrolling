@@ -113,7 +113,7 @@ function LineChart() {
                     
             //y text
             svg.select('.ytitle')
-                    .attr('transform', 'translate(' + (margin.left - 40) + ', ' + (margin.top + innerHeight / 2) + ') rotate(-90)')
+                    .attr('transform', 'translate(' + (margin.left - 60) + ', ' + (margin.top + innerHeight / 2) + ') rotate(-90)')
                     .transition()
                     .duration(0)
                     .text(yText);
@@ -177,6 +177,22 @@ function LineChart() {
             return height;
         }
         height = val;
+        return chart;
+    };
+    
+    chart.yLabel = function(label) {
+        if (!arguments.length) {
+            return yText;
+        }
+        yText = label;
+        return chart;
+    };
+    
+    chart.xLabel = function(label) {
+        if (!arguments.length) {
+            return xText;
+        }
+        xText = label;
         return chart;
     };
     
