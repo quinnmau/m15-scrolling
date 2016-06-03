@@ -35,3 +35,13 @@ p {
 form {
   margin-bottom:20px;
 }
+
+.link:hover {
+  cursor: pointer;
+}
+
+#intro {
+  background-color: lightgray;
+  padding-bottom: 350px;
+  padding-top: 300px;
+}

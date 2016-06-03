@@ -1,41 +1,115 @@
-// Main.js
-var data = [
-  {name:'Left Bar', value:11},
-  {name:'Right Bar', value:34}
+var init = [
+  {
+    year: 1968,
+    us: 12345
+  },
+  {
+    year: 1973,
+    us: 34254
+  }
 ];
 
 $(function() {
+  var introblock = d3.select('#intro')
+                      .style('width', window.innerWidth)
+                      .style('height', window.innerHeight);
+  
+  // var fixmeTop = $('#vis').offset().top;       // get initial position of the element
+
+  // $(window).scroll(function() {                  // assign scroll event listener
+
+  //     var currentScroll = $(window).scrollTop(); // get current position
+
+  //     if (currentScroll >= fixmeTop) {           // apply position: fixed if you
+  //         $('#vis').css({                      // scroll to that element or below it
+  //             position: 'fixed'
+  //         });
+  //     } else {                                   // apply position: static
+  //         $('#vis').css({                      // if you scroll above it
+  //             position: 'static'
+  //         });
+  //     }
+
+  // });
+  
+  var graph = GroupedBarChart()
+                .x(function(d) {return d.year})
+                .y(function(d) {return [{us: +d.us}]})
+                .showLegend(true);
+  
+  
   // Instantiate your chart with given settings
-  var myChart = BarChart().xVar('name')
-                          .yVar('value')
-                          .xAxisLabel('Bar')
-                          .yAxisLabel('Arbitrary Value');
+  var chartWrapper = d3.select('#vis')
+                        .datum([init])
+                        .call(graph);
+  
 
-  // Build chart
-  var chart = d3.select('#vis')
-                .datum(data)
-                .call(myChart);
-
-  var update = function(index) {
+  var update = function(index, val, data) {
       switch(index) {
         case 0:
-          var fillColor = 'blue';
+          var yVal = val;
           break;
         case 1:
-          var fillColor = 'red';
+          var yVal = val;
           break;
         case 2:
-          var fillColor = 'orange';
+          var yVal = val;
           break;
         case 3:
-          var fillColor = 'black';
+          var yVal = val;
           break;
         default:
-          var fillColor = 'black';
+          var yVal = val;
           break;
       }
-      myChart.fillColor(fillColor);
-      chart.call(myChart);
+      graph.y(val);
+      chartWrapper.datum([data]).call(graph);
+    };
+    
+    var getData = function(index) {
+      d3.csv('data/population.csv', function(data) {
+        switch(index) {
+          case 11:
+          console.log('feet');
+            var yVal = function(d) {
+              return [
+                {us: +d.us}
+              ];
+            };
+            update(index, yVal, data);
+            break;
+          case 12:
+            console.log('bones');
+            var yVal = function(d) {
+              return [
+                {us: +d.us},
+                {india: +d.india}
+              ];
+            };
+            update(index, yVal, data);
+            break;
+          case 13:
+            var yVal = function(d) {
+              return [
+                {us: +d.us},
+                {india: +d.india},
+                {china: +d.china}
+              ];
+            };
+            update(index, yVal, data);
+            break;
+          case 3:
+            break;
+          default:
+            var yVal = function(d) {
+              return [
+                {us: +d.us}
+              ];
+            };
+            update(index, yVal, data);
+            break;
+        }
+      });  
     };
   // Define a new scroller, and use the `.container` method to specify the desired container
   var scroll = scroller()
@@ -46,6 +120,6 @@ $(function() {
 
   // Specify the function you wish to activate when a section becomes active
   scroll.on('active', function(index) {
-    update(index);
+    getData(index);
   })
 });

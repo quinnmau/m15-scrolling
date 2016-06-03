@@ -10,42 +10,90 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/d3-queue.v2.min.js"></script>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/main.css"/>
   <link rel="stylesheet" href="css/scroll.css"/>
+  <link rel="stylesheet" href="css/GroupedBarChart.css"/>
 
   <!-- your script file -->
   <script src="js/BarChart.js"></script>
+  <script src="js/GroupedBarChart.js"></script>
   <script src="js/scroll.js"></script>
   <script src="js/main.js"></script>
 </head>
 
 <body>
-    <div class="container" ng-app="myApp" id="app" ng-controller="MainController">
-      <h1>Module 15 Demo 1</h1>
-      <p>This demo demonstrates how use scrolling in D3</p>
+    <div class="container-fluid" id="intro">
+      <h1 id="big-title">Global Warming</h1>
+      <p>
+        The phenomenon of global warming is when radiation emitted by the sun is absorbed by the earth. This radiation absorbed by the earth is then emitted back outwards causing the surface of the earth to warm. When the radiation emitted by earth tries to go back to space, it is trapped by <a href="https://en.wikipedia.org/wiki/Greenhouse_gas" class="link">greenhouse gasses</a> in earth's atmosphere that in turn send radiation back to earth's surface causing it to perpetually warm.
+      </p>
+    </div>
+    <div class="container" id="main">
     <div id="sandbox">
       <div id='graphic'>
         <div id='sections'>
           <section class="step">
-            <div class="title">Section 0: blue</div>
+            <h2>An Introduction...</h2>
+            <p>
+              Over the past ____ years, the average surface temperature of earth has increased by ____ degrees Celsius.
+            </p>
           </section>
           <section class="step">
-            <div class="title">Section 1: red</div>
+            <p>Here we see the average surface temperature of every country over the past ____ years.</p>
           </section>
           <section class="step">
-            <div class="title">Section 2: orange</div>
+            <h2>What is behind this change in temperature?</h2>
           </section>
           <section class="step">
-            <div class="title">Section 3: black</div>
+            <p>One of the major drivers of the greenhouse effect is the <strong>greenhouse gasses</strong>, one of which is carbon dioxide (CO2).</p>
           </section>
           <section class="step">
-            <!-- another section -->
+            <p>And who else to blame for this carbon dioxide than <strong>HUMANS</strong></p>
           </section>
+          <section class="step">
+            <p>Let's take a closer look at the countries who have the highest CO2 emmissions in the world.</p>
+          </section>
+          <section class="step">
+            <p>Here we see the CO2 emissions for the past ____ years in the U.S.</p>
+          </section>
+          <section class="step">
+            <p>And in China</p>
+          </section>
+          <section class="step">
+            <p>And in Russia</p>
+          </section>
+          <section class="step">
+            <p>And in ____, ____, ____, ____</p>
+          </section>
+          <section class="step">
+            <p>Although the birth rate in the major carbon producing countries has been declining, the populations still continue to increase.</p>
+            <p>Let's take a look...</p>
+          </section>
+          <section class="step">
+            <p>Again, here is the U.S.</p>
+          </section>
+          <section class="step">
+            <p>and China</p>
+          </section>
+          <section class="step">
+            <p>and Russia</p>
+          </section>
+          <section class="step">
+            <p>and ____, ____, ____, ____</p>
+          </section>
+          <section class="step">
+            <p></p>
+          </section>
+          <section class="step">
+            <p></p>
+          </section>
+          
         </div>
-        <div id='vis'>
-        </div>
+        <div id="vis">
+          </div>
       </div>
     </div>
   </body>
