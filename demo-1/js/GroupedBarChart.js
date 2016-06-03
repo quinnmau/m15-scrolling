@@ -3,9 +3,9 @@ function GroupedBarChart() {
     //initialize default values
     var margin = {
         top: 50,
-        left: 50,
+        left: 100,
         bottom: 50,
-        right: 50
+        right: 100
     };
     var width = 1000;
     var height = 600;
@@ -27,7 +27,6 @@ function GroupedBarChart() {
     //constructor
     function chart(selection) {
         selection.each(function(data) {
-            console.log(data[0]);
             //Convert data to standard representation greedily;
             //this is needed for nondeterministic accessors.
             data = data[0].map(function(d, i) {

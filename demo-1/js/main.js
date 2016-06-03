@@ -1,65 +1,48 @@
 var init = [
   {
     year: 1968,
-    us: 12345
+    uk: 0
   },
   {
     year: 1973,
-    us: 34254
+    uk: 0
   }
 ];
 
 $(function() {
-  var population = false;
-  var introblock = d3.select('#intro')
-                      .style('width', window.innerWidth)
-                      .style('height', window.innerHeight);
-  
-  var fixmeTop = $('#vis').offset().top;       // get initial position of the element
-
-  $(window).scroll(function() {                  // assign scroll event listener
-
-      var currentScroll = $(window).scrollTop(); // get current position
-
-      if (population) {           // apply position: fixed if you
-          $('#vis').css({                      // scroll to that element or below it
-              position: 'fixed'
-          });
-      } else {                                   // apply position: static
-          $('#vis').css({                      // if you scroll above it
-              position: 'static'
-          });
-      }
-
-  });
   
   var graph = GroupedBarChart()
+                .width(800)
                 .x(function(d) {return d.year})
-                .y(function(d) {return [{us: +d.us}]})
+                .y(function(d) {return [{uk: +d.uk}]})
                 .showLegend(true);
   
   
   // Instantiate your chart with given settings
-  var chartWrapper = d3.select('#vis')
-                        .datum([init])
-                        .call(graph);
+  var chartWrapper = d3.select('#vis');
+  
   
 
   var update = function(index, val, data) {
       switch(index) {
-        case 0:
+        case 12:
+          showVis();
           var yVal = val;
           break;
-        case 1:
+        case 13:
+          showVis();
           var yVal = val;
           break;
-        case 2:
+        case 14:
+          showVis();
           var yVal = val;
           break;
-        case 3:
+        case 15:
+          showVis();
           var yVal = val;
           break;
         default:
+          hideVis();
           var yVal = val;
           break;
       }
@@ -67,41 +50,66 @@ $(function() {
       chartWrapper.datum([data]).call(graph);
     };
     
+    function showVis() {
+      d3.select('#vis')
+        .transition()
+        .duration(1500)
+        .style('opacity', 1.0);
+    }
+    
+    function hideVis() {
+      d3.select('#vis')
+        .transition()
+        .duration(0)
+        .style('opacity', 0);
+    }
+    
     var getData = function(index) {
       d3.csv('data/population.csv', function(data) {
         switch(index) {
+          case 0:
+            console.log('hair');
+            break;
+          case 1:
+            console.log('hair');
+            break;
+          case 2:
+            console.log('hair');
+            break;
           case 10:
-            population = true;
-          case 11:
-          console.log('feet');
-            var yVal = function(d) {
-              return [
-                {us: +d.us}
-              ];
-            };
-            update(index, yVal, data);
+            console.log('melon');
             break;
           case 12:
-            console.log('bones');
+          console.log('feet');
+            showVis();
             var yVal = function(d) {
               return [
-                {us: +d.us},
-                {india: +d.india}
+                {uk: +d.uk}
               ];
             };
             update(index, yVal, data);
             break;
           case 13:
+            console.log('bones');
             var yVal = function(d) {
               return [
-                {us: +d.us},
-                {india: +d.india},
-                {china: +d.china}
+                {uk: +d.uk},
+                {germany: +d.germany}
               ];
             };
             update(index, yVal, data);
             break;
           case 14:
+            var yVal = function(d) {
+              return [
+                {uk: +d.uk},
+                {germany: +d.germany},
+                {japan: +d.japan}
+              ];
+            };
+            update(index, yVal, data);
+            break;
+          case 15:
           var yVal = function(d) {
               return [
                 {uk: +d.uk},
@@ -115,10 +123,10 @@ $(function() {
             update(index, yVal, data);
             break;
           default:
-          population = false;
+            hideVis();
             var yVal = function(d) {
               return [
-                {us: +d.us}
+                {uk: +d.uk}
               ];
             };
             update(index, yVal, data);

@@ -1,9 +1,10 @@
 #sections {
   position: relative;
   display: inline-block;
-  width: 250px;
+  width: 400px;
   top: 0px;
   z-index: 90;
+  margin-right: 20px;
 }
 
 .step {
@@ -11,7 +12,7 @@
 }
 
 #vis {
-  position: static;
+  position: fixed;
   display: inline-block;
   top: 60px;
   z-index: 1;

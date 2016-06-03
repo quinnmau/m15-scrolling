@@ -11,6 +11,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="https://d3js.org/d3-queue.v2.min.js"></script>
+  <script type="text/javascript" src="http://d3js.org/queue.v1.min.js"></script>
+  <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+  <script type="text/javascript" src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/main.css"/>
@@ -20,21 +23,22 @@
   <!-- your script file -->
   <script src="js/BarChart.js"></script>
   <script src="js/GroupedBarChart.js"></script>
+  <script src="js/heatmap.js"></script>
   <script src="js/scroll.js"></script>
   <script src="js/main.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid" id="intro">
-      <h1 id="big-title">Global Warming</h1>
-      <p>
-        The phenomenon of global warming is when radiation emitted by the sun is absorbed by the earth. This radiation absorbed by the earth is then emitted back outwards causing the surface of the earth to warm. When the radiation emitted by earth tries to go back to space, it is trapped by <a href="https://en.wikipedia.org/wiki/Greenhouse_gas" class="link">greenhouse gasses</a> in earth's atmosphere that in turn send radiation back to earth's surface causing it to perpetually warm.
-      </p>
-    </div>
     <div class="container" id="main">
     <div id="sandbox">
       <div id='graphic'>
         <div id='sections'>
+          <section class="step">
+            <h1 id="big-title">Global Warming</h1>
+            <p>
+              The phenomenon of global warming is when radiation emitted by the sun is absorbed by the earth. This radiation absorbed by the earth is then emitted back outwards causing the surface of the earth to warm. When the radiation emitted by earth tries to go back to space, it is trapped by <a href="https://en.wikipedia.org/wiki/Greenhouse_gas" class="link">greenhouse gasses</a> in earth's atmosphere that in turn send radiation back to earth's surface causing it to perpetually warm.
+            </p>
+          </section>
           <section class="step">
             <h2>An Introduction...</h2>
             <p>
@@ -73,24 +77,23 @@
             <p>Let's take a look...</p>
           </section>
           <section class="step">
-            <p>Again, here is the U.S.</p>
+            <p>Here we have the UK</p>
           </section>
           <section class="step">
-            <p>and China</p>
+            <p>and Germany</p>
           </section>
           <section class="step">
-            <p>and Russia</p>
+            <p>and Japan</p>
           </section>
           <section class="step">
-            <p>and ____, ____, ____, ____</p>
-          </section>
-          <section class="step">
-            <p></p>
+            <p>and the US, India, and China</p>
           </section>
           <section class="step">
             <p></p>
           </section>
-          
+          <section class="step">
+            <p></p>
+          </section>
         </div>
         <div id="vis">
           </div>
