@@ -6,7 +6,7 @@ function MapPlot() {
     //fields and default values
     var width = 960;
     var height = 800;
-    var scale = 1000; //scale for map size
+    var scale = 800; //scale for map size
     var lat;
     var lon;
     var shape;
@@ -78,7 +78,7 @@ function MapPlot() {
             circles.exit().remove();
             
             //updates circles to new positions
-            circles.transition().delay(function(d, i) {return i * 500}).duration(500)
+            circles.transition().delay(function(d, i) {return i * 300}).duration(500)
                             .attr('opacity', 0.4)
                             .attr('r', 10)
                             .attr('title', function(d) {return d[iden]})

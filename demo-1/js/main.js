@@ -26,7 +26,9 @@ $(function() {
   var united = MapPlot()
                 .lat('lat')
                 .lon('lon')
-                .iden('name');
+                .iden('name')
+                .width(600)
+                .height(600);
   
   
   // Instantiate your chart with given settings
