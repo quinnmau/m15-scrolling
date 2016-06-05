@@ -215,6 +215,10 @@ $(function() {
               showVis();
               chartWrapper.datum(pos1).call(united);
               break;
+            case 21:
+              united.map(map);
+              showVis();
+              chartWrapper.datum(pos2).call(united);
           }
         })
     };

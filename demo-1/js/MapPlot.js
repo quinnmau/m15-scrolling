@@ -78,7 +78,7 @@ function MapPlot() {
             circles.exit().remove();
             
             //updates circles to new positions
-            circles.transition().duration(1000)
+            circles.transition().delay(function(d, i) {return i * 500}).duration(500)
                             .attr('opacity', 0.4)
                             .attr('r', 10)
                             .attr('title', function(d) {return d[iden]})
