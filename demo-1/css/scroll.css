@@ -1,4 +1,4 @@
-#sections {
+#sections, #sections2 {
   position: relative;
   display: inline-block;
   width: 400px;
@@ -7,7 +7,7 @@
   margin-right: 20px;
 }
 
-.step {
+.step, .step2 {
   margin-bottom: 500px;
 }
 

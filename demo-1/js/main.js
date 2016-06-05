@@ -50,23 +50,25 @@ $(function() {
   
   var updateBar = function(index, val, data) {
       switch(index) {
+        case 9:
+          graph.yLabel('Population');
+          showVis();
+          var yVal = val;
+          break;
+        case 10:
+          graph.yLabel('Population');
+          showVis();
+          var yVal = val;
+          break;
         case 11:
-          graph.yLabel('Birth Rate (live births per 1000 people)');
+          graph.yLabel('population');
           showVis();
           var yVal = val;
           break;
         case 12:
-          graph.yLabel('Birth Rate (live births per 1000 people)');
+          graph.yLabel('population');
           showVis();
           var yVal = val;
-          break;
-        case 13:
-          graph.yLabel('Birth Rate (live births per 1000 people)');
-          showVis();
-          var yVal = val;
-          break;
-        case 14:
-          hideVis();
           break;
         case 15:
           showVis();
@@ -94,12 +96,14 @@ $(function() {
     
     //determine which data to grab
     var getData = function(index) {
-        if (index <= 9) {
+        if (index <= 8) {
           carbon(index);
-        } else if (index <= 14) {
-          rate(index);
-        } else if (index <= 18) {
+        } else if (index <= 12) {
           pop(index);
+        } else if (index <= 16) {
+          rate(index);
+        } else if (index <= 20) {
+          death(index);
         } else {
           birds(index);
         }
@@ -108,18 +112,23 @@ $(function() {
     var carbon = function(index) {
       d3.csv('data/co2.csv', function(data) {
         switch(index) {
-          case 7:
+          case 5:
             showVis();
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
             break;
-          case 8:
+          case 6:
             showVis();
             data.filter(function(d) {return objFilter2(d)});
             chartWrapper.datum(data).call(graph2);
             break;
-          case 9:
+          case 7:
             showVis();
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 8:
+          showVis();
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
             break;
@@ -134,7 +143,7 @@ $(function() {
     var pop = function(index) {
       d3.csv('data/population.csv', function(data) {
         switch(index) {
-          case 15:
+          case 9:
             $('#vis').empty();
             console.log('wet');
             showVis();
@@ -143,7 +152,7 @@ $(function() {
             };
             updateBar(index, yVal, data);
             break;
-          case 16:
+          case 10:
             showVis();
             var yVal = function(d) {
               return [
@@ -151,7 +160,15 @@ $(function() {
             };
             updateBar(index, yVal, data);
             break;
-          case 17:
+          case 11:
+            showVis();
+            var yVal = function(d) {
+              return [
+                {uk: +d.uk},{japan: +d.japan},{us: +d.us},{india: +d.india},{china: +d.china}];
+            };
+            updateBar(index, yVal, data);
+            break;
+          case 12:
             showVis();
             var yVal = function(d) {
               return [
@@ -176,17 +193,55 @@ $(function() {
     var rate = function(index) {
       d3.csv('data/world.csv', function(data) {
         switch(index) {
-          case 11:
+          case 13:
+            $('#vis').empty();
             showVis();
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
             break;
-          case 12:
+          case 14:
             showVis();
             data.filter(function(d) {return objFilter2(d)});
             chartWrapper.datum(data).call(graph2);
             break;
-          case 13:
+          case 15:
+            showVis();
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 16:
+            showVis();
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          default:
+            hideVis();
+            $('#vis').empty();
+            break;
+        }
+      });
+    };
+    
+    var death = function(index) {
+      d3.csv('data/death.csv', function(data) {
+        switch(index) {
+          case 17:
+            $('#vis').empty();
+            showVis();
+            data.filter(function(d) {return objFilter1(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 18:
+            showVis();
+            data.filter(function(d) {return objFilter2(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 19:
+            showVis();
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 20:
             showVis();
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
@@ -206,21 +261,17 @@ $(function() {
         .defer(d3.csv, 'data/winter05avg.csv')
         .await(function(error, map, pos1, pos2) {
           switch(index) {
-            case 19:
+            case 21:
               $('#vis').empty();
               showVis();
               united.map(map);
-              chartWrapper.datum([]).call(united);
-              break;
-            case 20:
-              united.map(map);
-              showVis();
               chartWrapper.datum(pos1).call(united);
               break;
-            case 21:
+            case 22:
               united.map(map);
               showVis();
               chartWrapper.datum(pos2).call(united);
+              break;
           }
         })
     };
@@ -259,5 +310,6 @@ $(function() {
   // Specify the function you wish to activate when a section becomes active
   scroll.on('active', function(index) {
     getData(index);
-  })
+  });
+  
 });
