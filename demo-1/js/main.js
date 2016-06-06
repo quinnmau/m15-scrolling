@@ -87,8 +87,11 @@ $(function() {
           rate(index);
         } else if (index <= 20) {
           death(index);
-        } else {
+        } else if (index <= 22){
           birds(index);
+        } else {
+          hideVis();
+          $('#vis').empty();
         }
     };
     

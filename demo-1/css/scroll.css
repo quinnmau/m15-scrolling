@@ -20,7 +20,3 @@
   height: 600px;
   width: 600px;
 }
-
-.step:last-child {
-  margin-bottom:calc(100vh - 100px);
-}
