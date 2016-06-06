@@ -132,7 +132,7 @@ function LineChart() {
                             .attr('opacity', 0)
                             .attr('class', 'legend-text')
                             .style('text-anchor', 'start')
-                            .text(function(d) {console.log(d.name); return d.name});    
+                            .text(function(d) {return d.name});    
             
             
             legend.enter().append('rect')
@@ -142,7 +142,7 @@ function LineChart() {
                     .attr('height', 18)
                     .attr('opacity', 0)
                     .attr('class', 'legend')
-                    .attr('fill', function(d) {console.log(d.name); return color(d.name)});
+                    .attr('fill', function(d) {return color(d.name)});
                     
             words.exit().transition().duration(1000).attr('opacity', 0).remove();
             

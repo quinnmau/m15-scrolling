@@ -29,7 +29,8 @@ $(function() {
                 .iden('name')
                 .width(600)
                 .height(600);
-  
+                
+  var engaged = false;
   
   // Instantiate your chart with given settings
   var chartWrapper = d3.select('#vis');
@@ -50,13 +51,8 @@ $(function() {
   
   var updateBar = function(index, val, data) {
       switch(index) {
-        case 9:
-          graph.yLabel('Population');
-          showVis();
-          var yVal = val;
-          break;
         case 10:
-          graph.yLabel('Population');
+          graph.yLabel('population');
           showVis();
           var yVal = val;
           break;
@@ -70,28 +66,15 @@ $(function() {
           showVis();
           var yVal = val;
           break;
-        case 15:
+        case 13:
           showVis();
           graph.yLabel('Population');
-          var yVal = val;
-          break;
-        case 16:
-          showVis();
-          graph.yLabel('Population');
-          var yVal = val;
-          break;
-        case 17:
-          showVis();
-          graph.yLabel('Population');
-          var yVal = val;
-          break;
-        default:
-          hideVis();
           var yVal = val;
           break;
       }
       graph.y(val).xLabel('Year');
       chartWrapper.datum([data]).call(graph);
+      showVis();
     };
     
     //determine which data to grab
@@ -114,11 +97,16 @@ $(function() {
       d3.csv('data/emission/co2.csv', function(data) {
         switch(index) {
           case 5:
-            showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
+            showVis();
+            engaged = true;
             break;
           case 6:
+            engaged = false;
             showVis();
             data.filter(function(d) {return objFilter2(d)});
             chartWrapper.datum(data).call(graph2);
@@ -129,13 +117,13 @@ $(function() {
             chartWrapper.datum(data).call(graph2);
             break;
           case 8:
-          showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
+            showVis();
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
-            break;
-          default:
-            hideVis();
-            $('#vis').empty();
             break;
         }
       });
@@ -145,14 +133,18 @@ $(function() {
       d3.csv('data/population/population.csv', function(data) {
         switch(index) {
           case 9:
-            $('#vis').empty();
+            if (engaged) {
+              $('#vis').empty();
+            }
             showVis();
             var yVal = function(d) {
               return [{uk: +d.uk}];
             };
             updateBar(index, yVal, data);
+            engaged = true;
             break;
           case 10:
+            engaged = false;
             showVis();
             var yVal = function(d) {
               return [
@@ -169,6 +161,10 @@ $(function() {
             updateBar(index, yVal, data);
             break;
           case 12:
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
             showVis();
             var yVal = function(d) {
               return [
@@ -176,31 +172,25 @@ $(function() {
             };
             updateBar(index, yVal, data);
             break;
-          default:
-            hideVis();
-            $('#vis').empty();
-            var yVal = function(d) {
-              return [
-                {uk: +d.uk}
-              ];
-            };
-            updateBar(index, yVal, data);
-            break;
         }
       });
-    }
+    };
     
     var rate = function(index) {
       d3.csv('data/birth/birth.csv', function(data) {
         switch(index) {
           case 13:
-            $('#vis').empty();
-            showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
             graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
+            showVis();
             break;
           case 14:
+            engaged = false;
             showVis();
             graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter2(d)});
@@ -213,14 +203,14 @@ $(function() {
             chartWrapper.datum(data).call(graph2);
             break;
           case 16:
-            showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
             graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
-            break;
-          default:
-            hideVis();
-            $('#vis').empty();
+            showVis();
             break;
         }
       });
@@ -230,13 +220,17 @@ $(function() {
       d3.csv('data/death/death.csv', function(data) {
         switch(index) {
           case 17:
-            $('#vis').empty();
-            showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
             graph2.yLabel('Death Rate (per 1000 people)');
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
+            showVis();
             break;
           case 18:
+            engaged = false;
             showVis();
             graph2.yLabel('Death Rate (per 1000 people)');
             data.filter(function(d) {return objFilter2(d)});
@@ -249,14 +243,14 @@ $(function() {
             chartWrapper.datum(data).call(graph2);
             break;
           case 20:
-            showVis();
+            if (engaged) {
+              $('#vis').empty();
+            }
+            engaged = true;
             graph2.yLabel('Death Rate (per 1000 people)');
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
-            break;
-          default:
-            hideVis();
-            $('#vis').empty();
+            showVis();
             break;
         }
       });
@@ -265,17 +259,21 @@ $(function() {
     var birds = function(index) {
       d3_queue.queue()
         .defer(d3.json, 'json/us.json')
-        .defer(d3.csv, 'data/winter66avg.csv')
-        .defer(d3.csv, 'data/winter05avg.csv')
+        .defer(d3.csv, 'data/birds/winter66avg.csv')
+        .defer(d3.csv, 'data/birds/winter05avg.csv')
         .await(function(error, map, pos1, pos2) {
           switch(index) {
             case 21:
-              $('#vis').empty();
-              showVis();
+              if (engaged) {
+                $('#vis').empty();
+              }
+              engaged = true;
               united.map(map);
               chartWrapper.datum(pos1).call(united);
+              showVis();
               break;
             case 22:
+              engaged = false;
               united.map(map);
               showVis();
               chartWrapper.datum(pos2).call(united);
