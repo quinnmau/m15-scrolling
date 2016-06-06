@@ -13,7 +13,7 @@ function LineChart() {
     var filter = [];
     var margin = {
         top: 0,
-        left: 75,
+        left: 100,
         bottom: 50,
         right: 110
     };
@@ -144,18 +144,15 @@ function LineChart() {
                     .attr('class', 'legend')
                     .attr('fill', function(d) {console.log(d.name); return color(d.name)});
                     
-            words.exit().remove();
+            words.exit().transition().duration(1000).attr('opacity', 0).remove();
             
-            legend.exit().remove();
+            legend.exit().transition().duration(1000).attr('opacity', 0).remove();
             
             words.transition().duration(1000)
                     .attr('opacity', 1);
                     
             legend.transition().duration(1000)
                     .attr('opacity', 1);
-            
-            
-            
             
             var paths = g.selectAll('.a-path').data(deps);
                     
@@ -171,7 +168,16 @@ function LineChart() {
                     })
                     .style('stroke', function(d) {return color(d.name)});
                     
-            paths.exit().transition().duration(500).remove();
+            paths.exit().transition().duration(500)
+                    .attr('d', function(d) {
+                        var arr = [];
+                        for (var i = 0; i < d.values.length; i++) {
+                            var obj = {xval: d.values[i].xval, yval: yMin};
+                            arr.push(obj);
+                        }
+                        return line(arr);
+                    })
+                    .remove();
             
             paths.transition().duration(1500)
                     .attr('d', function(d) {return line(d.values)});
@@ -230,7 +236,7 @@ function LineChart() {
         }
         xText = val;
         return chart;
-    }
+    };
     
     chart.yLabel = function(val) {
         if(!arguments.length) {
@@ -238,7 +244,15 @@ function LineChart() {
         }
         yText = val;
         return chart;
-    }
+    };
+    
+    chart.margin = function(obj) {
+        if(!arguments.length) {
+            return margin;
+        }
+        margin = obj;
+        return chart;
+    };
     
     return chart;
 }

@@ -109,8 +109,9 @@ $(function() {
         }
     };
     
+    //handles carbon emission data
     var carbon = function(index) {
-      d3.csv('data/co2.csv', function(data) {
+      d3.csv('data/emission/co2.csv', function(data) {
         switch(index) {
           case 5:
             showVis();
@@ -141,7 +142,7 @@ $(function() {
     };
     
     var pop = function(index) {
-      d3.csv('data/population.csv', function(data) {
+      d3.csv('data/population/population.csv', function(data) {
         switch(index) {
           case 9:
             $('#vis').empty();
@@ -190,26 +191,30 @@ $(function() {
     }
     
     var rate = function(index) {
-      d3.csv('data/world.csv', function(data) {
+      d3.csv('data/birth/birth.csv', function(data) {
         switch(index) {
           case 13:
             $('#vis').empty();
             showVis();
+            graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter1(d)});
             chartWrapper.datum(data).call(graph2);
             break;
           case 14:
             showVis();
+            graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter2(d)});
             chartWrapper.datum(data).call(graph2);
             break;
           case 15:
             showVis();
+            graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
             break;
           case 16:
             showVis();
+            graph2.yLabel('Birth Rate (per 1000 people)');
             data.filter(function(d) {return objFilter3(d)});
             chartWrapper.datum(data).call(graph2);
             break;
@@ -222,35 +227,39 @@ $(function() {
     };
     
     var death = function(index) {
-      d3_queue.queue()
-        .defer(d3.csv, 'data/death/death.csv')
-        .defer(d3.csv, 'data/death/death2.csv')
-        .defer(d3.csv, 'data/death/death3.csv')
-        .await(function(error, a, b, c) {
-          switch(index) {
-            case 17:
-              $('#vis').empty();
-              showVis();
-              chartWrapper.datum(a).call(graph2);
-              break;
-            case 18:
-              showVis();
-              chartWrapper.datum(b).call(graph2);
-              break;
-            case 19:
-              showVis();
-              chartWrapper.datum(c).call(graph2);
-              break;
-            case 20:
-              showVis();
-              chartWrapper.datum(d).call(graph2);
-              break;
-            default:
-              hideVis();
-              $('#vis').empty();
-              break;
-          }
-        });
+      d3.csv('data/death/death.csv', function(data) {
+        switch(index) {
+          case 17:
+            $('#vis').empty();
+            showVis();
+            graph2.yLabel('Death Rate (per 1000 people)');
+            data.filter(function(d) {return objFilter1(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 18:
+            showVis();
+            graph2.yLabel('Death Rate (per 1000 people)');
+            data.filter(function(d) {return objFilter2(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 19:
+            showVis();
+            graph2.yLabel('Death Rate (per 1000 people)');
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          case 20:
+            showVis();
+            graph2.yLabel('Death Rate (per 1000 people)');
+            data.filter(function(d) {return objFilter3(d)});
+            chartWrapper.datum(data).call(graph2);
+            break;
+          default:
+            hideVis();
+            $('#vis').empty();
+            break;
+        }
+      });
     };
     
     var birds = function(index) {
