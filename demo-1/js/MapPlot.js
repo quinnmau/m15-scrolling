@@ -72,7 +72,9 @@ function MapPlot() {
                             .attr('title', function(d) {return d[iden]})
                             .attr('opacity', 0)
                             .attr('cy', function(d) {var arr = projection(d.point); return arr[1]})
-                            .attr('cx', function(d) {var arr = projection(d.point); return arr[0]});
+                            .attr('cx', function(d) {var arr = projection(d.point); return arr[0]})
+                            .append('rect:title')
+                            .text(function(d) {return d[iden]});
             
             //remove circles not in current data set               
             circles.exit().remove();
@@ -94,15 +96,6 @@ function MapPlot() {
                 var newVal = (((val - oldMin) * newR) / oldR) + 6;
                 return newVal;
             }
-            
-            $('svg circle').tipsy({ 
-                gravity: 'w', 
-                html: true, 
-                title: function() {
-                var d = this.__data__;;
-                return d[iden]; 
-                }
-            });
         });
     };
     

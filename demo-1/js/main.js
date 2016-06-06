@@ -145,7 +145,6 @@ $(function() {
         switch(index) {
           case 9:
             $('#vis').empty();
-            console.log('wet');
             showVis();
             var yVal = function(d) {
               return [{uk: +d.uk}];
@@ -223,35 +222,35 @@ $(function() {
     };
     
     var death = function(index) {
-      d3.csv('data/death.csv', function(data) {
-        switch(index) {
-          case 17:
-            $('#vis').empty();
-            showVis();
-            data.filter(function(d) {return objFilter1(d)});
-            chartWrapper.datum(data).call(graph2);
-            break;
-          case 18:
-            showVis();
-            data.filter(function(d) {return objFilter2(d)});
-            chartWrapper.datum(data).call(graph2);
-            break;
-          case 19:
-            showVis();
-            data.filter(function(d) {return objFilter3(d)});
-            chartWrapper.datum(data).call(graph2);
-            break;
-          case 20:
-            showVis();
-            data.filter(function(d) {return objFilter3(d)});
-            chartWrapper.datum(data).call(graph2);
-            break;
-          default:
-            hideVis();
-            $('#vis').empty();
-            break;
-        }
-      });
+      d3_queue.queue()
+        .defer(d3.csv, 'data/death/death.csv')
+        .defer(d3.csv, 'data/death/death2.csv')
+        .defer(d3.csv, 'data/death/death3.csv')
+        .await(function(error, a, b, c) {
+          switch(index) {
+            case 17:
+              $('#vis').empty();
+              showVis();
+              chartWrapper.datum(a).call(graph2);
+              break;
+            case 18:
+              showVis();
+              chartWrapper.datum(b).call(graph2);
+              break;
+            case 19:
+              showVis();
+              chartWrapper.datum(c).call(graph2);
+              break;
+            case 20:
+              showVis();
+              chartWrapper.datum(d).call(graph2);
+              break;
+            default:
+              hideVis();
+              $('#vis').empty();
+              break;
+          }
+        });
     };
     
     var birds = function(index) {
@@ -286,7 +285,6 @@ $(function() {
     
     function objFilter2(obj) {
       for (var i in obj) {
-        console.log(i);
         if (i !== 'us' && i !== 'year' && i !== 'china') 
           delete obj[i];
       }
@@ -294,8 +292,7 @@ $(function() {
     
     function objFilter3(obj) {
       for (var i in obj) {
-        console.log(i);
-        if (i !== 'us' && i !== 'year' && i !== 'china' && i !== 'india' && i !== 'uk' && i !== 'japan') 
+        if (i !== 'us' && i !== 'year' && i !== 'china' && i !== 'india' && i !== 'japan' && i !== 'uk') 
           delete obj[i];
       }
     }

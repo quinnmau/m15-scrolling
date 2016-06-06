@@ -10,11 +10,12 @@ function LineChart() {
     var xText = 'X Axis';
     var yText = 'Y Axis';
     var color = d3.scale.category10();
+    var filter = [];
     var margin = {
         top: 0,
         left: 75,
         bottom: 50,
-        right: 0
+        right: 110
     };
     
     function chart(selection) {
@@ -24,7 +25,6 @@ function LineChart() {
         
         //loop through selection and data bound to each element
         selection.each(function(data) {
-            console.log(data);
             
             //line 
             var line = d3.svg.line()
@@ -41,8 +41,6 @@ function LineChart() {
                     })
                 };
             });
-            
-            console.log(deps);
             
             //selected element
             var div = d3.select(this);
@@ -78,9 +76,10 @@ function LineChart() {
             gEnter.append('text')
                     .attr('class', 'ytitle title');
                     
+            
+                    
             //set scales
             xScale.domain(d3.extent(data, function(d) {return d[x]})).range([0, innerWidth]);
-            console.log(xScale.domain());
             
             var yMin = d3.min(deps, function(c) {return d3.min(c.values, function(v) {return v.yval})});
             var yMax = d3.max(deps, function(c) {return d3.max(c.values, function(v) {return v.yval})});
@@ -113,13 +112,50 @@ function LineChart() {
                     
             //y text
             svg.select('.ytitle')
-                    .attr('transform', 'translate(' + (margin.left - 60) + ', ' + (margin.top + innerHeight / 2) + ') rotate(-90)')
+                    .attr('transform', 'translate(' + (margin.left - 40) + ', ' + (margin.top + innerHeight / 2) + ') rotate(-90)')
                     .transition()
                     .duration(0)
                     .text(yText);
                   
             //re select gEnter to append shapes
             var g = div.select('.gEnter');
+            
+            var legend = g.selectAll('.legend').data(deps);
+            
+            var words = g.selectAll('.legend-text').data(deps);
+            
+            words.enter().append('text')
+                            .attr('transform', function(d, i) {return 'translate(0, ' + (i * 25) + ')'})
+                            .attr('x', innerWidth + 50)
+                            .attr('y', 9)
+                            .attr('dy', '.35em')
+                            .attr('opacity', 0)
+                            .attr('class', 'legend-text')
+                            .style('text-anchor', 'start')
+                            .text(function(d) {console.log(d.name); return d.name});    
+            
+            
+            legend.enter().append('rect')
+                    .attr('transform', function(d, i) {return 'translate(0, ' + (i * 25) + ')'})
+                    .attr('x', innerWidth + 30)
+                    .attr('width', 18)
+                    .attr('height', 18)
+                    .attr('opacity', 0)
+                    .attr('class', 'legend')
+                    .attr('fill', function(d) {console.log(d.name); return color(d.name)});
+                    
+            words.exit().remove();
+            
+            legend.exit().remove();
+            
+            words.transition().duration(1000)
+                    .attr('opacity', 1);
+                    
+            legend.transition().duration(1000)
+                    .attr('opacity', 1);
+            
+            
+            
             
             var paths = g.selectAll('.a-path').data(deps);
                     
@@ -138,7 +174,7 @@ function LineChart() {
             paths.exit().transition().duration(500).remove();
             
             paths.transition().duration(1500)
-                    .attr('d', function(d) {console.log(d.values); return line(d.values)});
+                    .attr('d', function(d) {return line(d.values)});
         });
     }
     
@@ -180,21 +216,29 @@ function LineChart() {
         return chart;
     };
     
-    chart.yLabel = function(label) {
-        if (!arguments.length) {
-            return yText;
-        }
-        yText = label;
-        return chart;
+    chart.filter = function(arr) {
+      if (!arguments.length) {
+          return filter;
+      }
+      filter = arr;
+      return chart;  
     };
     
-    chart.xLabel = function(label) {
-        if (!arguments.length) {
+    chart.xLabel = function(val) {
+        if(!arguments.length) {
             return xText;
         }
-        xText = label;
+        xText = val;
         return chart;
-    };
+    }
+    
+    chart.yLabel = function(val) {
+        if(!arguments.length) {
+            return yText;
+        }
+        yText = val;
+        return chart;
+    }
     
     return chart;
 }
